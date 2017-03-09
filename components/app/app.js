@@ -14,6 +14,13 @@
 
 			this.el.appendChild(this.chat.el);
 			this.el.appendChild(this.form.el);
+
+			this.render();
+		}
+
+		render () {
+			this.chat.render();
+			this.form.render();
 		}
 
 		_createComponents () {
@@ -27,16 +34,15 @@
 		}
 
 		_initMediate () {
-			this.form.onSubmit((data) => {
-				this.chat.addMessage(data);
-			});
+			this.form.on('message', (event) => {
+				let data = event.detail;
 
-			this.chat.onScrollStart(() => {
-				this.form.disable();
-			});
 
-			this.chat.onScrollEnd(() => {
-				this.form.enable();
+				this.chat.addMessage({
+					text: data.message.value
+				});
+				this.chat.render();
+				this.form.reset();
 			});
 		}
 	

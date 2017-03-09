@@ -1,6 +1,9 @@
 (function () {
 	'use strict';
 
+	//import
+	const tmpl = window.chat_tmpl;
+
 	/**
 	 * @typedef {Object} ChatMessage
 	 *
@@ -9,10 +12,15 @@
 	 */
 
 	class Chat {
-		constructor(options) {
-			this.el = options.el;
+		constructor({el, data = {messages: []}}) {
+			this.el = el;
+			this.data = data;
 
-			this.el.innerHTML = '<h3>Я чатик</h3>';
+			this._getUserName();
+		}
+
+		render () {
+			this.el.innerHTML = tmpl(this.data);
 		}
 
 		/**
@@ -20,18 +28,27 @@
 		 * @param {ChatMessage} data
 		 */
 		addMessage (data) {
-			// ...
+			this.data.messages.push({
+				avatar: 'http://i.imgur.com/FHMnsVNt.jpg',
+				name: data.name || this.data.user,
+				text: data.text,
+				date: data.date || new Date()
+			});
 		}
 
 		onScrollStart (cb) {
-
+			console.info('Метод onScrollStart не реализован');
 		}
 
 		onScrollEnd (cb) {
-
+			console.info('Метод onScrollEnd не реализован');
 		}
-	
-		// methods
+
+		_getUserName () {
+			//TODO: справшивать
+			this.data.user = 'Tim';
+		}
+
 	}
 
 
